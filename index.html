@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Dashboard">
+    <meta name="author" content="Gustavo Magalhães Pereira">
+
+    <title>DSIS Dashboard</title>
+<!--    <meta http-equiv="refresh" content="60">-->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="dist/css/myStyle.css" rel="stylesheet">
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" type="text/css"/>
+
+</head>
+
+<body>
+
+    <!-- DASHBOARD -->
+    <div id="wrapper" ng-app="NTIDashboard" ng-controller="dashboardController">
+        <div class="board" id="background2">
+
+            <!-- LEADTIME GERAL -->
+            <div class="space-title col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <!-- DSIS DASHBOARD -->
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <img class="img-space" src="image/nti_branco.png" alt="logo NTI" height="40" width="40"></img>
+                    <a class="dashboard-main-title light-text">Dashboard</a>
+                </div>
+
+                <!-- MAIN TIME -->
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="light-text text-center">
+                        <a class="dashboard-main-time light-text">{{ leadtime.geral.dias }}</a>
+                        <a class="dashboard-text light-text">dia(s)</a>
+                        <a class="dashboard-main-time light-text">{{ leadtime.geral.horas }}</a>
+                        <a class="dashboard-text light-text">hr(s)</a>
+                        <a class="dashboard-main-time light-text">{{ leadtime.geral.minutos }}</a>
+                        <a class="dashboard-text light-text">min</a>
+                        <a class="dashboard-main-time light-text">{{ leadtime.geral.segundos }}</a>
+                        <a class="dashboard-text light-text">seg</a>
+                    </div>
+                    <div class="dashboard-title-chamados light-text text-center little-space">Leadtime ( {{ leadtime.total }} chamados )</div>
+
+                </div>
+
+                <!-- MAIN BAR -->
+                <div class="geral-bar col-lg-5 col-md-5 col-sm-5 col-xs-5">
+
+                    <p>
+                        <span><a class="light-text small-text">OCIOSO</a></span>
+                        <span class="align-right"><a class="light-text small-text">ATIVO</a></span>
+                    </p>
+
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{leadtime.ocioso.porcentagem}}%"><span class="dark-text">{{leadtime.ocioso.porcentagem}}%</span></div>
+                        <div class="progress-bar  progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{leadtime.ativo.porcentagem}}%"><span class="dark-text">{{leadtime.ativo.porcentagem}}%</span></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="padding-bootstrap-left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div>
+                                <a class="dashboard-time light-text">{{ leadtime.ocioso.dias }}</a>
+                                <a class="light-text">dia(s)</a>
+                                <a class="dashboard-time light-text">{{ leadtime.ocioso.horas }}</a>
+                                <a class="light-text">hr(s)</a>
+                                <a class="dashboard-time light-text">{{ leadtime.ocioso.minutos }}</a>
+                                <a class="light-text">min</a>
+                                <a class="dashboard-time light-text">{{ leadtime.ocioso.segundos }}</a>
+                                <a class="light-text">seg</a>
+                            </div>
+                        </div>
+
+                        <div class="padding-bootstrap-right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="text-right">
+                                <a class="dashboard-time light-text">{{ leadtime.ativo.dias }}</a>
+                                <a class="light-text">dia(s)</a>
+                                <a class="dashboard-time light-text">{{ leadtime.ativo.horas }}</a>
+                                <a class="light-text">hr(s)</a>
+                                <a class="dashboard-time light-text">{{ leadtime.ativo.minutos }}</a>
+                                <a class="light-text">min</a>
+                                <a class="dashboard-time light-text">{{ leadtime.ativo.segundos }}</a>
+                                <a class="light-text">seg</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LEGENDA -->
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                    <div class="text-right">
+                        <a class="light-text">Legenda: </a>
+                        <a class="Pendente">Pendente</a>
+                        <a class="Aguardando">Aguardando Resposta</a>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="imediata"><a>Imediata</a></td>
+                                <td class="urgente"><a>Urgente</a></td>
+                                <td class="alta"><a>Alta</a></td>
+                                <td class="normal"><a>Normal</a></td>
+                                <td class="baixa"><a>Baixa</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- QUADRO 1 - ATENDIMENTO/NEGÓCIOS E DADOS-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <!--FILA DE ATENDIMENTO/NEGÓCIOS-->
+                <div class="board-color middle-right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                    <div class="board-title">ATENDIMENTO/NEGÓCIOS</div>
+
+                    <!--ATEN TO DO-->
+                    <div class="padding-table-right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="board-subtitle">TO DO ({{quantidade_chamados_atendimento_todo}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="config">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_atendimento_todo">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 47 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--ATEN DOING-->
+                    <div class="padding-table-right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="board-subtitle">DOING ({{quantidade_chamados_atendimento_doing}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="config">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_atendimento_doing">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td ng-class="x.estado" class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 47 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROGRESS BAR Leadtime de Atendimento -->
+                    <div class="middle-center col-lg-12 col-md-12 col-sm-12" data-toggle="modal" data-target="#modal-atendimento">
+
+                        <div class="light-text text-center">
+                            <a class="dashboard-alt-time light-text">{{ aten.geral.dias }}</a>
+                            <a class="dashboard-alt-text light-text">dia(s)</a>
+                            <a class="dashboard-alt-time light-text">{{ aten.geral.horas }}</a>
+                            <a class="dashboard-alt-text light-text">hr(s)</a>
+                            <a class="dashboard-alt-time light-text">{{ aten.geral.minutos }}</a>
+                            <a class="dashboard-alt-text light-text">min</a>
+                            <a class="dashboard-alt-time light-text">{{ aten.geral.segundos }}</a>
+                            <a class="dashboard-alt-text light-text">seg</a>
+                        </div>
+
+                        <div class="dashboard-title-chamados light-text text-center little-space">
+                            Leadtime ({{aten.total}} chamados)
+                        </div>
+
+                        <p>
+                            <span><a class="light-text small-text">OCIOSO</a></span>
+                            <span class="align-right"><a class="light-text small-text">ATIVO</a></span>
+                        </p>
+
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{aten.ocioso.porcentagem}}%"><span class="dark-text">{{aten.ocioso.porcentagem}}%</span></div>
+
+                            <div class="progress-bar  progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{aten.ativo.porcentagem}}%"><span class="dark-text">{{aten.ativo.porcentagem}}%</span></div>
+                        </div>
+
+                        <p class="title-space">
+                            <span><a class="light-text small-text">{{aten.ocioso.dias}} dia(s) {{aten.ocioso.horas}} hr(s) {{aten.ocioso.minutos}} min {{aten.ocioso.segundos}} seg</a></span>
+                            <span class="align-right"><a class="light-text small-text">{{aten.ativo.dias}} dia(s) {{aten.ativo.horas}} hr(s) {{aten.ativo.minutos}} min {{aten.ativo.segundos}} seg</a></span>
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!--FILA DE DADOS-->
+                <div class="board-color middle-left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                    <div class="board-title">DADOS</div>
+
+                    <!--DADOS TO DO-->
+                    <div class="padding-table-right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="board-subtitle">TO DO ({{quantidade_chamados_dados_todo}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="config">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_dados_todo">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 47 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--DADOS DOING-->
+                    <div class="padding-table-right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="board-subtitle">DOING ({{quantidade_chamados_dados_doing}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="config">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_dados_doing">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td ng-class="x.estado" class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 47 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROGRESS BAR Leadtime de Dados -->
+                    <div class="middle-center col-lg-12 col-md-12 col-sm-12" data-toggle="modal" data-target="#modal-dados">
+
+                        <div class="light-text text-center">
+                            <a class="dashboard-alt-time light-text">{{ dados.geral.dias }}</a>
+                            <a class="dashboard-alt-text light-text">dia(s)</a>
+                            <a class="dashboard-alt-time light-text">{{ dados.geral.horas }}</a>
+                            <a class="dashboard-alt-text light-text">hr(s)</a>
+                            <a class="dashboard-alt-time light-text">{{ dados.geral.minutos }}</a>
+                            <a class="dashboard-alt-text light-text">min</a>
+                            <a class="dashboard-alt-time light-text">{{ dados.geral.segundos }}</a>
+                            <a class="dashboard-alt-text light-text">seg</a>
+                        </div>
+
+                        <div class="dashboard-title-chamados light-text text-center little-space">
+                            Leadtime ({{dados.total}} chamados)
+                        </div>
+
+                        <p>
+                            <span><a class="light-text small-text">OCIOSO</a></span>
+                            <span class="align-right"><a class="light-text small-text">ATIVO</a></span>
+                        </p>
+
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{dados.ocioso.porcentagem}}%"><span class="dark-text">{{dados.ocioso.porcentagem}}%</span></div>
+
+                            <div class="progress-bar  progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{dados.ativo.porcentagem}}%"><span class="dark-text">{{dados.ativo.porcentagem}}%</span></div>
+                        </div>
+
+                        <p class="title-space">
+                            <span><a class="light-text small-text">{{dados.ocioso.dias}} dia(s) {{dados.ocioso.horas}} hr(s) {{dados.ocioso.minutos}} min {{dados.ocioso.segundos}} seg</a></span>
+                            <span class="align-right"><a class="light-text small-text">{{dados.ativo.dias}} dia(s) {{dados.ativo.horas}} hr(s) {{dados.ativo.minutos}} min {{dados.ativo.segundos}} seg</a></span>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- QUADRO 2 - QUADRO DE MANUTENÇÃO -->
+            <div class="board-color col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <!--FILA DE MANUTENÇÃO - BACKLOG-->
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                    <div class="board-title">BACKLOG MANUTENÇÃO</div>
+
+                    <!--MANU EXTERNOS-->
+                    <div class="padding-table-right col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="board-subtitle">Externos ({{quantidade_chamados_manu_externos}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="configmini">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_manu_externos">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 27 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--MANU INTERNOS-->
+                    <div class="padding-table-right col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="board-subtitle">Internos ({{quantidade_chamados_manu_internos}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="configmini">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_manu_internos">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 27 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--FILA DE DESENVOLVIMENTO-->
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+
+                    <div class="board-title">DESENVOLVIMENTO</div>
+
+                    <!--DEV TO DO-->
+                    <div class="padding-table-right col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="board-subtitle">TO DO ({{quantidade_chamados_dev_todo}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="config">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_dev_todo">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 22 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--DEV DOING-->
+                    <div class="padding-table-right col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="board-subtitle">DOING ({{quantidade_chamados_dev_doing}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="config">
+                            <div class="panel-body">
+                                <div class="table-responsive" ng-scrollbars ng-scrollbars-config="config">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_dev_doing">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td ng-class="x.estado" class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 22 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--DEV DONE-->
+                    <div class="padding-table-right col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="board-subtitle">DONE ({{quantidade_chamados_dev_done}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="config">
+                            <div class="panel-body">
+                                <div class="table-responsive" ng-scrollbars ng-scrollbars-config="config">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_dev_done">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 22 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--FILA DE TESTES-->
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+
+                    <div class="board-title">TESTES</div>
+
+                    <!--TESTE DOING-->
+                    <div class="padding-table-right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="board-subtitle">DOING ({{quantidade_chamados_teste_doing}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="config">
+                            <div class="panel-body">
+                                <div class="table-responsive" ng-scrollbars ng-scrollbars-config="config">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_teste_doing">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td ng-class="x.estado" class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 18 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--TESTE DONE-->
+                    <div class="padding-table-right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="board-subtitle">DONE ({{quantidade_chamados_teste_done}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="config">
+                            <div class="panel-body">
+                                <div class="table-responsive" ng-scrollbars ng-scrollbars-config="config">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_teste_done">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 18 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--FILA DE CONFIGURAÇÃO-->
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                    <div class="board-title">CONFIGURAÇÃO</div>
+                    <div class="padding-table-right col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="board-subtitle">DOING ({{quantidade_chamados_config_doing}})</div>
+                        <div class="panel" ng-scrollbars ng-scrollbars-config="config">
+                            <div class="panel-body">
+                                <div class="table-responsive" ng-scrollbars ng-scrollbars-config="config">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr ng-repeat="x in chamados_fila_config_doing">
+                                                <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                                                <td ng-class="x.estado" class="light-text small-text capitalized" title={{x.titulo}}>{{x.titulo | limitTo: 27 | lowercase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- LEADTIME BAR MANUTENÇÃO-->
+                <div class="padding-bootstrap-left col-lg-12 col-md-12 col-sm-12 col-xs-12" data-toggle="modal" data-target="#modal-manutencao">
+                    <div class="row middle-center">
+                        <!-- PROGRESS BAR Leadtime de Manutenção -->
+                        <div class="padding-bootstrap-right col-lg-12 col-md-12 col-sm-12">
+
+                            <div class="light-text text-center">
+                                <a class="dashboard-alt-time light-text">{{ manu.geral.dias }}</a>
+                                <a class="dashboard-alt-text light-text">dia(s)</a>
+                                <a class="dashboard-alt-time light-text">{{ manu.geral.horas }}</a>
+                                <a class="dashboard-alt-text light-text">hr(s)</a>
+                                <a class="dashboard-alt-time light-text">{{ manu.geral.minutos }}</a>
+                                <a class="dashboard-alt-text light-text">min</a>
+                                <a class="dashboard-alt-time light-text">{{ manu.geral.segundos }}</a>
+                                <a class="dashboard-alt-text light-text">seg</a>
+                            </div>
+
+                            <div class="dashboard-title-chamados light-text text-center little-space">
+                                Leadtime ({{manu.total}} chamados)
+                            </div>
+
+                            <p>
+                                <span><a class="light-text small-text">OCIOSO</a></span>
+                                <span class="align-right"><a class="light-text small-text">ATIVO</a></span>
+                            </p>
+
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{manu.ocioso.porcentagem}}%"><span class="dark-text">{{manu.ocioso.porcentagem}}%</span></div>
+
+                                <div class="progress-bar  progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{manu.ativo.porcentagem}}%"><span class="dark-text">{{manu.ativo.porcentagem}}%</span></div>
+                            </div>
+
+                            <p class="title-space">
+                                <span><a class="light-text small-text">{{manu.ocioso.dias}} dia(s) {{manu.ocioso.horas}} hr(s) {{manu.ocioso.minutos}} min {{manu.ocioso.segundos}} seg</a></span>
+                                <span class="align-right"><a class="light-text small-text">{{manu.ativo.dias}} dia(s) {{manu.ativo.horas}} hr(s) {{manu.ativo.minutos}} min {{manu.ativo.segundos}} seg</a></span>
+                            </p>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    <!-- Modal leadtime atendimento -->
+    <div class="modal fade" id="modal-atendimento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Chamados do Leadtime de Atendimento / Negócio</h4>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>Chamado</th>
+                    <th>Título</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in lista_chamados_leadtime_atendimento">
+                        <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                        <td class="small-text" title={{x.titulo}}>{{x.titulo | limitTo: 52}}</td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal leadtime dados -->
+    <div class="modal fade" id="modal-dados" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Chamados do Leadtime de Dados</h4>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>Chamado</th>
+                    <th>Título</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in lista_chamados_leadtime_dados">
+                        <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                        <td class="small-text" title={{x.titulo}}>{{x.titulo | limitTo: 52}}</td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal leadtime manutenção -->
+    <div class="modal fade" id="modal-manutencao" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Chamados do Leadtime de Manutenção</h4>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>Chamado</th>
+                    <th>Título</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in lista_chamados_leadtime_manutencao">
+                        <td ng-class="x.prioridade" title={{x.dono}}><a href={{x.url}} target="_blank">{{x.numero}}</a></td>
+                        <td class="small-text" title={{x.titulo}}>{{x.titulo | limitTo: 52}}</td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+    <footer>
+        <div class="dashboard-footer light-text">NTI UFPE - DSIS - Dashboard - Version 2.0</div>
+    </footer>
+
+    <!-- HTTP GET/POST REQUEST -->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/ng-scrollbars/dist/scrollbars.min.js"></script>
+    <script src="dist/js/main.js"></script>
+    <script src="bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
